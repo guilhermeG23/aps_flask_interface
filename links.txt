@@ -1,0 +1,5 @@
+https://smi-2020.herokuapp.com/categorias/
+https://smi-2020.herokuapp.com/fornecedores/
+https://smi-2020.herokuapp.com/funcionarios/
+https://smi-2020.herokuapp.com/produtos/
+https://smi-2020.herokuapp.com/setorFuncionarios/
