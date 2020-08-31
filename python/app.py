@@ -3,6 +3,7 @@ import requests
 import simplejson 
 import json
 
+#Flask
 app = Flask(__name__, static_folder='../Static', template_folder='../templates')
 
 #Funcoes
@@ -25,7 +26,12 @@ def controle():
     setores=""
     fornecedor=""
     categorias=""
-    listar = request.form.get("listar")
+
+    if request.args.get("listar") is None:
+        listar = request.form.get("listar")
+    else:
+        listar = request.args.get("listar")
+
     if listar is not None:
         uri = "{}/{}".format(link_fonte, listar)
         expecifico = request.form.get("procurar")
@@ -88,7 +94,7 @@ def criar():
     data_json = json.dumps(data)
     requests.post(uri, data=data_json, headers=headers)
 
-    return redirect(url_for("index")) 
+    return redirect(url_for("controle", listar=listar)) 
 
 
 @app.route("/atualizar", methods=['GET', 'POST'])
@@ -115,9 +121,9 @@ def atualizar():
         nome_alt = request.form.get("nome_alt")    
         sobrenome_alt = request.form.get("sobrenome_alt")
         setores_alt = request.form.get("setores_alt")   
-        usuario_alt = "null"
+        usuario_alt = "1" #Alterar depois
         uri=uri + "{}".format(funcionario_id_atl)
-        data = {"id": "{}".format(funcionario_id_atl), "nome": "{}".format(nome_alt), "usuarioId": "{}".format(usuario_alt), "setor": "{}".format(setores_alt), "sobreNome": "{}".format(sobrenome_alt)}
+        data = {"id": int('{}'.format(funcionario_id_atl)), "nome": "{}".format(nome_alt), "usuarioId": '{}'.format(usuario_alt), "setor": int("{}".format(setores_alt)), "sobreNome": "{}".format(sobrenome_alt)}
 
     elif listar == "lotes":
         lote_id_atl = request.form.get("lote_id_atl")
@@ -152,7 +158,7 @@ def atualizar():
     data_json = json.dumps(data)
     requests.put(uri, data=data_json, headers=headers)
 
-    return redirect(url_for("index")) 
+    return redirect(url_for("controle", listar=listar)) 
 
 
 #Funcionando
@@ -169,9 +175,7 @@ def deletar():
 
     requests.delete(uri, headers=headers)
 
-    return redirect(url_for("index")) 
-
-
+    return redirect(url_for("controle", listar=listar)) 
 
 #Executar o flask
 if __name__ == "__main__":
