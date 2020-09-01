@@ -22,11 +22,13 @@ def index():
 
 @app.route("/controle", methods=['GET', 'POST'])
 def controle():
+
     conteudo=""
     setores=""
     fornecedor=""
     categorias=""
 
+    #Decisao de o que mostrar
     if request.args.get("listar") is None:
         listar = request.form.get("listar")
     else:
@@ -35,13 +37,19 @@ def controle():
     if listar is not None:
         uri = "{}/{}".format(link_fonte, listar)
         expecifico = request.form.get("procurar")
-        if expecifico is not None:
+        if expecifico is not None :
             uri = "{}/{}".format(uri, expecifico)
         conteudo = get_rest(uri)
         #Para listas
         setores = get_rest("{}/setorFuncionarios".format(link_fonte))
         categorias = get_rest("{}/categorias".format(link_fonte))
         fornecedor = get_rest("{}/fornecedores".format(link_fonte))
+    
+    #Caso o valor não exista o array
+    if (listar in tabelas) == False:
+        listar=None
+        conteudo=None
+
     return render_template("controle.html", titulo=titulo, css=css, js=js, tabelas=tabelas, listar=listar, conteudo=conteudo, fornecedor=fornecedor, setores=setores, categorias=categorias, versao=versao)
 
 @app.route("/criar", methods=['GET', 'POST'])

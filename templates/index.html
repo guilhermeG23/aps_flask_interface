@@ -34,7 +34,12 @@
 </nav>
 
 <div class="container-pagina">
-
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item"><h3>Tabelas trabalhadas</h3></li>
+    {% for i in tabelas %}
+      <li class="list-group-item">{{ i }}</li>
+    {% endfor %}
+  </ul>
 </div>
 
 <footer class="bg-dark navbar-brand footer">
