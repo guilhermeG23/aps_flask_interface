@@ -95,6 +95,11 @@ def criar():
         setorFuncionarios_add = request.form.get("setorFuncionarios_add")
         data = {'id':0,'nome':'{}'.format(setorFuncionarios_add)}
 
+    elif listar == "usuario":
+        usuario_nome_add = request.form.get("usuario_nome_add")
+        usuario_senha_add = request.form.get("usuario_senha_add")
+        data = {"email": "{}".format(usuario_nome_add), "id": 0, "senha": "{}".format(usuario_senha_add)}
+
     else:
         pass
 
@@ -158,6 +163,14 @@ def atualizar():
         setor_nome_alt = request.form.get("setor_nome_alt")
         uri=uri + "{}".format(setor_id_alt)
         data = {'id':'{}'.format(setor_id_alt),'nome':'{}'.format(setor_nome_alt)}
+
+    elif listar == "usuario":
+        usuario_id_alt = request.form.get("usuario_id_alt")
+        usuario_nome_alt = request.form.get("usuario_nome_alt")
+        usuario_senha_alt = request.form.get("usuario_senha_alt")
+        uri=uri + "{}".format(usuario_id_alt)
+        data = {"email": "{}".format(usuario_nome_alt), "id": int("{}".format(usuario_id_alt)), "senha": "{}".format(usuario_senha_alt)}
+
     else:
         pass
 
@@ -191,6 +204,8 @@ if __name__ == "__main__":
     css = ["./Static/css/reset.css", "./Static/css/bootstrap.css", "./Static/css/css_pessoal.css"]
     js = ["./Static/js/jquery-3.4.1.slim.min.js", "./Static/js/bootstrap.js", "./Static/js/popper.min.js", "./Static/js/js_pessoal.js"]
     link_fonte = "https://smi-2020.herokuapp.com"
-    tabelas = ["categorias", "fornecedores", "funcionarios", "lotes", "produtos", "setorFuncionarios"]
-    versao = "0.0.2 - SMI - Continuando o projeto"
+    #cliente
+    #setorProduto
+    tabelas = ["categorias", "fornecedores", "funcionarios", "lotes", "produtos", "setorFuncionarios", "usuario"]
+    versao = "0.0.3 - SMI - Continuando o projeto"
     app.run(host='0.0.0.0', debug=True)

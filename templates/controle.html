@@ -146,7 +146,12 @@
                     <label for="setorFuncionarios-add">Categoria: </label>
                     <input type="text" id="setorFuncionarios-add" class="form-control" name="setorFuncionarios_add">
                     {% endif %}
-                  
+                    {% if listar == "usuario" %}
+                    <label for="usuario_nome_add">Email: </label>
+                    <input type="text" id="usuario_nome_add" class="form-control" name="usuario_nome_add">
+                    <label for="usuario_senha_alt">Senha: </label>
+                    <input type="password" id="usuario_senha_add" class="form-control" name="usuario_senha_add">
+                    {% endif %}
                   </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -196,14 +201,14 @@
       <table class="table">
         <thead>
           <th>Nome</th>
-          <th>Produtos</th>
+          <!--<th>Produtos</th>-->
           <th>Funções</th>
         </thead>
         <tbody>
           {% for i in conteudo %}
           <tr>
             <th>{{ i['nome'] }}</th>
-            <th>{{ i['produtos'] }}</th>
+            <!--<th>{{ i['produtos'] }}</th>-->
             <th>
               
               <button type="button" class="nav-link btn-transparente form-pag-controle" data-toggle="modal" data-target="#alterar_produto{{ i['id'] }}">Alterar</button>
@@ -688,6 +693,83 @@
                               <input type="hidden" value="{{ listar }}" name="listar">
                               <input type="hidden" id="categoria-add" class="form-control" name="deletar_valor" value="{{ i['id'] }}">
                               <p>Realmente deseja deletar "{{ i['nome'] }}" de "{{ listar }}"?</p>
+                            </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                          <button type="submit" class="btn btn-primary">Deletar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+
+
+            </th>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+      {% if listar == "usuario" %}
+      <p>Necessita arrumar coisas no backend</p>
+      <table class="table">
+        <thead>
+          <th>Email</th>
+          <th>Funções</th>
+        </thead>
+        <tbody>
+          {% for i in conteudo %}
+          <tr>
+            <th>{{ i['email'] }}</th>
+            <th>
+              <button type="button" class="nav-link btn-transparente form-pag-controle" data-toggle="modal" data-target="#alterar_usuario{{ i['id'] }}">Alterar</button>
+              <button type="button" class="nav-link btn-transparente form-pag-controle" data-toggle="modal" data-target="#deletar_usuario{{ i['id'] }}">Deletar</button>
+
+              <form action="{{ url_for('atualizar') }}" method="POST">
+                <div class="modal fade bd-example-modal-lg" id="alterar_usuario{{ i['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Alterar {{ i['email'] }}</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                              <input type="hidden" value="{{ listar }}" name="listar">
+                              <input type="hidden" id="usuario_id_alt" class="form-control" name="usuario_id_alt" value="{{ i['id'] }}">
+                              <label for="usuario_nome_alt">Email: </label>
+                              <input type="text" id="usuario_nome_alt" class="form-control" name="usuario_nome_alt" value="{{ i['email'] }}">
+                              <label for="usuario_senha_alt">Senha: </label>
+                              <input type="password" id="usuario_senha_alt" class="form-control" name="usuario_senha_alt" value="{{ i['senha'] }}">
+                            </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                          <button type="submit" class="btn btn-primary">Alterar</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+
+              <form action="{{ url_for('deletar') }}" method="POST">
+                <div class="modal fade bd-example-modal-lg" id="deletar_usuario{{ i['id'] }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLongTitle">Deletar {{ i['email'] }}</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                              <input type="hidden" value="{{ listar }}" name="listar">
+                              <input type="hidden" id="categoria-add" class="form-control" name="deletar_valor" value="{{ i['id'] }}">
+                              <p>Realmente deseja deletar "{{ i['email'] }}" de "{{ listar }}"?</p>
                             </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
