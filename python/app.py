@@ -27,6 +27,7 @@ def controle():
     setores=""
     fornecedor=""
     categorias=""
+    usuario=""
 
     #Decisao de o que mostrar
     if request.args.get("listar") is None:
@@ -44,13 +45,14 @@ def controle():
         setores = get_rest("{}/setorFuncionarios".format(link_fonte))
         categorias = get_rest("{}/categorias".format(link_fonte))
         fornecedor = get_rest("{}/fornecedores".format(link_fonte))
+        usuario = get_rest("{}/usuario".format(link_fonte))
     
     #Caso o valor não exista o array
     if (listar in tabelas) == False:
         listar=None
         conteudo=None
 
-    return render_template("controle.html", titulo=titulo, css=css, js=js, tabelas=tabelas, listar=listar, conteudo=conteudo, fornecedor=fornecedor, setores=setores, categorias=categorias, versao=versao)
+    return render_template("controle.html", titulo=titulo, css=css, js=js, tabelas=tabelas, listar=listar, conteudo=conteudo, fornecedor=fornecedor, setores=setores, categorias=categorias, usuario=usuario, versao=versao)
 
 @app.route("/criar", methods=['GET', 'POST'])
 def criar():
@@ -99,6 +101,13 @@ def criar():
         usuario_nome_add = request.form.get("usuario_nome_add")
         usuario_senha_add = request.form.get("usuario_senha_add")
         data = {"email": "{}".format(usuario_nome_add), "id": 0, "senha": "{}".format(usuario_senha_add)}
+
+    elif listar == "clientes":
+        cliente_nome_add = request.form.get("cliente_nome_add")
+        cliente_sobrenome_add = request.form.get("cliente_sobrenome_add")
+        cliente_email_add = request.form.get("cliente_email_add")
+
+        data = {"id": 0, "nome":"{}".format(cliente_nome_add), "sobreNome": "{}".format(cliente_sobrenome_add), "usuarioId": "{}".format(cliente_email_add)}
 
     else:
         pass
@@ -170,10 +179,17 @@ def atualizar():
         usuario_senha_alt = request.form.get("usuario_senha_alt")
         uri=uri + "{}".format(usuario_id_alt)
         data = {"email": "{}".format(usuario_nome_alt), "id": int("{}".format(usuario_id_alt)), "senha": "{}".format(usuario_senha_alt)}
+    
+    elif listar == "clientes":
+        cliente_id_alt = request.form.get("cliente_id_alt")
+        cliente_nome_alt = request.form.get("cliente_nome_alt")
+        cliente_sobrenome_alt = request.form.get("cliente_sobrenome_alt")
+        cliente_email_alt = request.form.get("cliente_email_alt")
+        uri=uri + "{}".format(cliente_id_alt)
+        data = {"id": int("{}".format(cliente_id_alt)), "nome": "{}".format(cliente_nome_alt), "sobreNome": "{}".format(cliente_sobrenome_alt), "usuarioId": "{}".format(cliente_email_alt)}
 
     else:
         pass
-
 
     headers = {'Content-type': 'application/json'}
     data_json = json.dumps(data)
@@ -206,6 +222,6 @@ if __name__ == "__main__":
     link_fonte = "https://smi-2020.herokuapp.com"
     #cliente
     #setorProduto
-    tabelas = ["categorias", "fornecedores", "funcionarios", "lotes", "produtos", "setorFuncionarios", "usuario"]
+    tabelas = ["categorias", "fornecedores", "funcionarios", "lotes", "produtos", "setorFuncionarios", "usuario", "clientes"]
     versao = "0.0.3 - SMI - Continuando o projeto"
     app.run(host='0.0.0.0', debug=True)
